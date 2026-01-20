@@ -14,7 +14,196 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      article_progress: {
+        Row: {
+          article_id: string
+          completed_at: string
+          id: string
+          personalization_data: Json | null
+          quiz_score: number | null
+          user_id: string
+        }
+        Insert: {
+          article_id: string
+          completed_at?: string
+          id?: string
+          personalization_data?: Json | null
+          quiz_score?: number | null
+          user_id: string
+        }
+        Update: {
+          article_id?: string
+          completed_at?: string
+          id?: string
+          personalization_data?: Json | null
+          quiz_score?: number | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      comments: {
+        Row: {
+          content: string
+          created_at: string
+          discussion_id: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          discussion_id: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          discussion_id?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "comments_discussion_id_fkey"
+            columns: ["discussion_id"]
+            isOneToOne: false
+            referencedRelation: "discussions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      discussion_likes: {
+        Row: {
+          created_at: string
+          discussion_id: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          discussion_id: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          discussion_id?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "discussion_likes_discussion_id_fkey"
+            columns: ["discussion_id"]
+            isOneToOne: false
+            referencedRelation: "discussions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      discussions: {
+        Row: {
+          category: string
+          comments_count: number
+          content: string
+          created_at: string
+          id: string
+          likes_count: number
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          category?: string
+          comments_count?: number
+          content: string
+          created_at?: string
+          id?: string
+          likes_count?: number
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          category?: string
+          comments_count?: number
+          content?: string
+          created_at?: string
+          id?: string
+          likes_count?: number
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          created_at: string
+          display_name: string | null
+          id: string
+          last_activity_date: string | null
+          level: number
+          streak_days: number
+          updated_at: string
+          user_id: string
+          username: string | null
+          xp: number
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          last_activity_date?: string | null
+          level?: number
+          streak_days?: number
+          updated_at?: string
+          user_id: string
+          username?: string | null
+          xp?: number
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          last_activity_date?: string | null
+          level?: number
+          streak_days?: number
+          updated_at?: string
+          user_id?: string
+          username?: string | null
+          xp?: number
+        }
+        Relationships: []
+      }
+      user_badges: {
+        Row: {
+          badge_type: Database["public"]["Enums"]["badge_type"]
+          earned_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          badge_type: Database["public"]["Enums"]["badge_type"]
+          earned_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          badge_type?: Database["public"]["Enums"]["badge_type"]
+          earned_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +212,17 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      badge_type:
+        | "first_article"
+        | "streak_7"
+        | "streak_30"
+        | "looksmaxxing_master"
+        | "ancestral_master"
+        | "quiz_ace"
+        | "level_5"
+        | "level_10"
+        | "community_contributor"
+        | "early_adopter"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +349,19 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      badge_type: [
+        "first_article",
+        "streak_7",
+        "streak_30",
+        "looksmaxxing_master",
+        "ancestral_master",
+        "quiz_ace",
+        "level_5",
+        "level_10",
+        "community_contributor",
+        "early_adopter",
+      ],
+    },
   },
 } as const
